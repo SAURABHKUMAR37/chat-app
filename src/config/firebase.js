@@ -2,7 +2,9 @@
 import { initializeApp } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
-  getAuth
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut
 } from "firebase/auth";
 import {
   getFirestore,
@@ -52,9 +54,30 @@ const signup = async (username, email, password) => {
     toast.success("Account created successfully!");
 
   } catch (error) {
-    toast.error(error.message);
-    console.error(error);
+toast.error(error.code.split('/')[1].split('-').join(" "))    
+console.error(error);
   }
 };
+const login=async(email,password)=>{
+  try {
+    await signInWithEmailAndPassword(auth,email,password);
+    toast.success("run")
+    
+  } catch (error) {
+    console.log(error)
+    toast.error(error.code.split('/')[1].split('-').join(" "))
+    
+  }
 
-export { signup };
+}
+const logout=async()=>{
+  try {
+    await signOut(auth)
+    
+  } catch (error) {
+    toast.error(error.code.split('/')[1].split('-').join(" "))
+  }
+  
+}
+
+export { signup ,login,logout};
